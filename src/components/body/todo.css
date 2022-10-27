@@ -1,0 +1,93 @@
+.containerBox .box {
+  background-color: white;
+  box-shadow: 3.5px 10px rgba(213, 210, 210, 0.431);
+  border-radius: 10px;
+  width: 70%;
+  margin: auto;
+  height: fit-content;
+}
+.containerBox .box .mainInput {
+  width: 100%;
+  border-bottom: 2px solid rgba(176, 173, 173, 0.692);
+  border-radius: 10px;
+  position: relative;
+  margin-top: -20px;
+}
+.containerBox .box .mainInput input {
+  border: none;
+  width: 80%;
+  height: 50px;
+  font-size: 20px;
+  outline: none !important;
+  margin-left: 30px;
+}
+
+.containerBox .box .mainInput .arrow {
+  position: absolute;
+  font-size: 30px;
+  font-weight: bold;
+  color: #cdc6c6;
+  left: 5px;
+  top: 16px;
+}
+
+/* //////// */
+.containerBox .box .items {
+  height: fit-content;
+  text-align: left !important;
+  /* text-decoration: ; */
+}
+.containerBox .box .items .item {
+  margin: 5px;
+  height: 70px !important;
+  border-bottom: 1px solid rgba(176, 173, 173, 0.692);
+}
+
+.containerBox .box .items .item label {
+  width: 92% !important;
+  height: 80%;
+  border: none;
+  font-size: 25px;
+  margin-left: 10px;
+  text-decoration: none;
+}
+.containerBox .box .items .item label .done {
+  float: right !important;
+  color: blue;
+  font-size: 18px;
+  margin-right: 10px;
+  display: none;
+}
+
+.toggle {
+  text-decoration: line-through !important;
+  color: blue;
+}
+.toggle-done {
+  display: inline-block !important;
+}
+/* ///////////// */
+.containerBox .box .footer {
+  padding: 10px;
+}
+
+.containerBox .box .footer span {
+  color: rgb(150, 141, 141);
+  position: relative;
+  top: 3px;
+}
+.containerBox .box .footer button {
+  width: fit-content;
+  border: none;
+  background-color: white;
+  padding: 5px;
+}
+.containerBox .box .footer button:hover {
+  background-color: blue;
+  color: white;
+  border-radius: 10px;
+}
+.containerBox .box .footer .buttons-in-the-middle {
+  display: flex;
+  justify-content: space-between !important;
+}

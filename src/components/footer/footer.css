@@ -1,0 +1,8 @@
+footer .footerP  {
+  color: rgb(192, 184, 184);
+  margin-top: 50px;
+}
+footer .footerP a {
+ text-decoration: none;
+  font-weight: bold;
+}
