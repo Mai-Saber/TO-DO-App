@@ -161,11 +161,11 @@ function ToDoList() {
           {items.length !== 0 && (
             <div className="footer" id="footer">
               <Row>
-                <Col sm={3} xs={12}>
+                <Col lg={3} xs={12}>
                   <span>{activeItems.length} items Left</span>
                 </Col>
 
-                <Col sm={5} xs={12} className="buttons-in-the-middle">
+                <Col lg={5} xs={12} className="buttons-in-the-middle">
                   <Button
                     id="buttonAll"
                     content="All"
@@ -189,7 +189,7 @@ function ToDoList() {
                     onHide={() => setShowModal(false)}
                   />
                 </Col>
-                <Col sm={4} xs={12}>
+                <Col lg={4} xs={12}>
                   <Button
                     id="buttonClear"
                     content="Clear completed"
