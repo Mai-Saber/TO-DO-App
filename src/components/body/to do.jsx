@@ -3,117 +3,103 @@ import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "../../common/button";
 import Input from "../../common/input";
+import CongratsModal from "../../common/modal";
 import "./todo.css";
 
+const FILTER_MODE_ALL = "all";
+const FILTER_MODE_ACTIVE = "active";
+const FILTER_MODE_COMPLETED = "completed";
+
 function ToDoList() {
-  const [AddTask, setAddTask] = useState("");
-  let [Items, setItems] = useState([]);
-  const [AllItems] = useState([]);
-  let [Active] = useState([]);
-  let [completed] = useState([]);
-  let [CompletedArray, setCompletedArray] = useState([]);
-  const [numberOfItems, setNumberOfItems] = useState("");
+  const [taskInput, setTaskInput] = useState("");
+  const [items, setItems] = useState([]);
+  const [currentTab, setCurrentTab] = useState(FILTER_MODE_ALL);
+  const [showModal, setShowModal] = useState(false);
+
+  const activeItems = items.filter((item) => !item.completed);
+  const completedItems = items.filter((item) => item.completed);
+
+  let itemsToRender = [];
+  switch (currentTab) {
+    case FILTER_MODE_ALL:
+      itemsToRender = items;
+      break;
+
+    case FILTER_MODE_COMPLETED:
+      itemsToRender = completedItems;
+      break;
+
+    case FILTER_MODE_ACTIVE:
+      itemsToRender = activeItems;
+      break;
+
+    default:
+  }
 
   const handleChange = (e) => {
-    setAddTask(e.target.value);
-    // console.log("AddTask", AddTask);
+    setTaskInput(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    const isEnter = e.keyCode == 13;
+    const newTask = taskInput.trim();
+    const isTaskPresent = newTask.length > 0;
+    if (isEnter && isTaskPresent) {
+      handleSubmit();
+    }
   };
 
   const handleSubmit = () => {
-    Items.push({ name: AddTask, id: Items.length, completed: "false" });
-    AllItems.push({ name: AddTask, id: AllItems.length, completed: "false" });
-    setAddTask("");
+    items.push({ name: taskInput, id: items.length, completed: false });
+    setItems(items);
+
+    setTaskInput("");
   };
 
-  const handleChecked = (id) => {
-    // to mark it
-    document.getElementById("itemName" + id).classList.toggle("toggle");
-    document.getElementById("done" + id).classList.toggle("toggle-done");
-    // to add label'id to completed array
-    let labels = document.getElementsByClassName("label");
-    CompletedArray = [];
-    for (let i = 0; i < labels.length; i++) {
-      if (labels[i].className.includes("toggle")) {
-        // console.log(l[i].htmlFor);
-        let index = labels[i].htmlFor; //id
-        CompletedArray.push(index);
+  const toggleItemCompleted = (id) => {
+    const updatedItems = items.map((item) => {
+      if (item.id === id) {
+        return { ...item, completed: !item.completed };
       }
-      // console.log("c", CompletedArray);
-      setCompletedArray(CompletedArray);
-    }
-    // to know how much items left
-    setNumberOfItems(Items.length - CompletedArray.length);
-  };
 
-  // fadel checked
-  const handleAll = () => {
-    console.log("all");
-    setItems(AllItems);
-    // console.log("all", AllItems);
-    // console.log("items", Items);
-
-    // ان اللي عليه علامة يتعلم تاني
-    let checked = "";
-    CompletedArray.map((ele) => {
-      checked = AllItems.filter((item) => item.id == ele);
+      return item;
     });
-    console.log();
+
+    // to set all with the update of complete status
+    setItems(updatedItems);
   };
 
-  const handleActive = () => {
-    console.log("completed", CompletedArray);
-    console.log("items before", Items);
-
-    for (let i = 0; i < CompletedArray.length; i++) {
-      const ele = CompletedArray[i];
-      Active = Items.filter((item) => item.id != ele);
-      console.log("active", Active);
-      setItems(Active);
-    }
-
-    console.log("Active", Active);
-    console.log("Items after", Items);
-    setItems(Active);
+  const showAll = () => {
+    setCurrentTab(FILTER_MODE_ALL);
   };
 
-  const handleCompleted = () => {
-    console.log("completed Array", CompletedArray);
-    CompletedArray.map(
-      (ele) => (completed = Items.filter((item) => item.id == ele))
-    );
-    setItems(completed);
-    console.log("completed", completed);
+  const filterByActive = () => {
+    setCurrentTab(FILTER_MODE_ACTIVE);
   };
 
-  const handleClearCompleted = () => {
-    console.log("clear completed", CompletedArray);
+  const filterByCompleted = () => {
+    setCurrentTab(FILTER_MODE_COMPLETED);
   };
 
-  const handleArrow = () => {
-    console.log("handleArrow");
+  const clearCompleted = () => {
+    setItems(activeItems);
+  };
 
-    let checkboxes = document.getElementsByClassName("checkbox");
-    for (let i = 0; i < checkboxes.length; i++) {
-      checkboxes[i].checked = "true";
-    }
-
-    let labels = document.getElementsByClassName("label");
-    for (let i = 0; i < labels.length; i++) {
-      labels[i].classList.toggle("toggle");
-    }
-
-    let done = document.getElementsByClassName("done");
-    for (let i = 0; i < done.length; i++) {
-      done[i].classList.toggle("toggle-done");
-    }
+  const setAllCompleted = () => {
+    const updatedItems = items.map((item) => ({ ...item, completed: true }));
+    setItems(updatedItems);
+  };
+  const handleClose = (id) => {
+    let updatedItems = items.filter((item) => item.id != id);
+    setItems(updatedItems);
   };
   return (
     <>
       <div>
         <div className="box">
           <div className="mainInput">
-            {Items.length !== 0 ? (
-              <span className="arrow" onClick={handleArrow}>
+            {items.length !== 0 ? (
+              <span className="arrow" onClick={setAllCompleted}>
                 <i className="ri-arrow-down-s-line"></i>
               </span>
             ) : null}
@@ -121,90 +107,99 @@ function ToDoList() {
             <Input
               id="main"
               placeHolder="What needs to be done?"
-              value={AddTask}
+              value={taskInput}
               name="AddTask"
+              autoFocus={true}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
             <Button
-              id="button"
               className="btn btn-primary button"
               onClick={handleSubmit}
               content="Add"
-              disabled={AddTask.trim() === "" ? true : false}
+              disabled={taskInput.trim() === "" ? true : false}
             />
           </div>
 
           <div className="items">
-            {(Items || []).map((ele) => (
-              <div className="item" key={ele.id}>
+            {itemsToRender.map((item) => (
+              <div className="item" key={item.id}>
                 <input
-                  className="checkbox"
+                  className="checkbox "
                   type="checkbox"
-                  id={ele.id}
+                  id={item.id}
                   name="item"
-                  value={ele.name}
-                  onChange={() => handleChecked(ele.id)}
-                  // onClick={handle}
+                  value={item.name}
+                  onChange={() => toggleItemCompleted(item.id)}
+                  checked={item.completed}
                 />
 
                 <label
-                  className="label"
-                  htmlFor={ele.id}
-                  id={"itemName" + ele.id}
+                  className={"label " + (item.completed && "toggle")}
+                  htmlFor={item.id}
+                  id={"itemName" + item.id}
                   type="text"
                   name="item"
-                  // onChange={handleChangeEle}
                 >
-                  {ele.name}
-                  <span className="done" id={"done" + ele.id}>
+                  {item.name}
+                  <span className="close" onClick={() => handleClose(item.id)}>
+                    x
+                  </span>
+                  <span
+                    className={
+                      "done " + (item.completed ? "toggle-done" : null)
+                    }
+                    id={"done" + item.id}
+                  >
                     Done
                   </span>
                 </label>
-
-                {/* <Input
-                    id={"itemName" + ele.id}
-                    type="text"
-                    value={ele.name}
-                    name="item"
-                    onChange={handleChangeEle}
-                  /> */}
               </div>
             ))}
           </div>
 
-          {AllItems.length !== 0 ? (
+          {items.length !== 0 && (
             <div className="footer" id="footer">
               <Row>
-                <Col sm={3}>
-                  <span>{numberOfItems} items Left</span>
+                <Col sm={3} xs={12}>
+                  <span>{activeItems.length} items Left</span>
                 </Col>
-                <Col sm={5} className="buttons-in-the-middle">
+
+                <Col sm={5} xs={12} className="buttons-in-the-middle">
                   <Button
+                    id="buttonAll"
                     content="All"
-                    onClick={handleAll}
+                    onClick={() => showAll("buttonAll")}
                     title="Show all tasks"
                   />
                   <Button
+                    id="buttonActive"
                     content="Active"
-                    onClick={handleActive}
+                    onClick={() => filterByActive("buttonActive")}
                     title="Show uncompleted tasks"
                   />
                   <Button
+                    id="buttonCompleted"
                     content="Completed"
-                    onClick={handleCompleted}
+                    onClick={() => filterByCompleted("buttonCompleted")}
                     title="Show completed tasks"
                   />
+                  <CongratsModal
+                    show={showModal}
+                    onHide={() => setShowModal(false)}
+                  />
                 </Col>
-                <Col sm={4}>
+                <Col sm={4} xs={12}>
                   <Button
+                    id="buttonClear"
                     content="Clear completed"
-                    onClick={handleClearCompleted}
+                    onClick={() => clearCompleted("buttonClear")}
                     title="delete completed tasks :)"
                   />
                 </Col>
               </Row>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
     </>

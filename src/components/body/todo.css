@@ -5,6 +5,7 @@
   width: 70%;
   margin: auto;
   height: fit-content;
+  margin-top: 50px;
 }
 .containerBox .box .mainInput {
   width: 100%;
@@ -38,8 +39,8 @@
   /* text-decoration: ; */
 }
 .containerBox .box .items .item {
-  margin: 5px;
-  height: 70px !important;
+  margin: auto;
+  padding: 15px;
   border-bottom: 1px solid rgba(176, 173, 173, 0.692);
 }
 
@@ -57,14 +58,6 @@
   font-size: 18px;
   margin-right: 10px;
   display: none;
-}
-
-.toggle {
-  text-decoration: line-through !important;
-  color: blue;
-}
-.toggle-done {
-  display: inline-block !important;
 }
 /* ///////////// */
 .containerBox .box .footer {
@@ -90,4 +83,53 @@
 .containerBox .box .footer .buttons-in-the-middle {
   display: flex;
   justify-content: space-between !important;
+}
+/* /////modal/////// */
+.modal-header {
+  margin: auto;
+}
+.modal-header h1 {
+  color: rgb(187, 161, 9);
+  font-style: italic;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.modal-container p {
+  color: rgb(150, 130, 18);
+}
+.modal-container .img img {
+  width: 100% !important;
+  border: 1px solid rgb(42, 41, 41);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+@media (min-width: 100px) and (max-width: 1200px) {
+  .containerBox {
+    height: fit-content !important;
+  }
+}
+
+/* ///// */
+.toggle {
+  text-decoration: line-through !important;
+  color: blue;
+}
+
+.toggle-done {
+  display: inline-block !important;
+}
+
+.close {
+  color: red;
+  float: right;
+  display: none;
+}
+
+.item:hover .close {
+  display: block;
+}
+
+button:focus {
+  border: 1px solid rgb(60, 0, 255) !important;
+  border-radius: 30% !important;
 }
