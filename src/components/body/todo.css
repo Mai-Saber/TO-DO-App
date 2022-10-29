@@ -86,14 +86,16 @@
   border-radius: 5px;
   padding: 5px;
 }
-
+/* /////////////////////////////// */
 @media (min-width: 100px) and (max-width: 1200px) {
   .containerBox {
     height: fit-content !important;
+    width: 80vw;
   }
   .containerBox .box {
     width: fit-content;
   }
+  
 }
 
 /* ///// */
