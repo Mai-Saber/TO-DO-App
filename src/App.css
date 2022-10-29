@@ -1,11 +1,29 @@
 body {
-  background: #e8e4e4da !important;
+  background: #667db6b4; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #667db6ce,
+    #0082c89f,
+    #0082c89e,
+    #667db6a7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #5170c1,
+    #0082c884,
+    #0082c898,
+    #667db6c9
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .containerBox {
+  /* background: #e9e9e91a; */
   text-align: center;
-  height: 100vh !important;
-  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.4em;
-  padding: 2px 0;
+  border-radius: 4px;
+  padding: 10px 15px;
+  width: 40vw;
 }
